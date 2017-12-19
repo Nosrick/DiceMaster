@@ -15,10 +15,14 @@ public class GameManager : MonoBehaviour
         DiceObject diceObject = Resources.Load<DiceObject>("Prefabs/Dice");
         List<DiceObject> dice = new List<DiceObject>();
 
+        SpriteLoader.Load();
+        DiceFaceLoader.Load();
+
         DiceFace[] faces = new DiceFace[6];
         for(int i = 1; i < 7; i++)
         {
-            faces[i - 1] = new PlayFace(i, i, i, FaceType.Play, Color.black, Color.cyan);
+            faces[i - 1] = DiceFaceLoader.Get("DebugCat-1"); //new PlayFace(i, i, i, FaceType.Play, Color.black, Color.cyan, "DEFAULT-" + i, MaterialLoader.Get("DebugCat"));
+            DiceFaceLoader.Serialise(faces[i - 1]);
         }
 
         for(int i = 0; i < 18; i++)

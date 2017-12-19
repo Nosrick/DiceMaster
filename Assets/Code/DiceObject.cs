@@ -35,6 +35,10 @@ public class DiceObject : MonoBehaviour
             text[1].color = m_Faces[i].TextColour;
             text[2].color = m_Faces[i].TextColour;
 
+            Image image = faces[i].GetComponentInChildren<Image>();
+            image.sprite = m_Faces[i].Image;
+            image.color = m_Faces[i].TextColour;
+
             if (m_Faces[i].Face == FaceType.Play)
             {
                 PlayFace playFace = (PlayFace)m_Faces[i];

@@ -1,0 +1,21 @@
+{
+    "Level": 4,
+    "Face": 0,
+    "TextColour": {
+        "r": 0.0,
+        "g": 0.0,
+        "b": 0.0,
+        "a": 1.0
+    },
+    "DieColour": {
+        "r": 0.0,
+        "g": 1.0,
+        "b": 1.0,
+        "a": 1.0
+    },
+    "Name": "DEFAULT-4",
+    "Attack": 4,
+    "Toughness": 4,
+    "SpecialName": "None",
+    "SpriteName": "DebugCat"
+}
