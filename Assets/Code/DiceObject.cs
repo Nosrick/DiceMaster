@@ -1,6 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DiceObject : MonoBehaviour
 {
@@ -22,24 +22,54 @@ public class DiceObject : MonoBehaviour
     public void SetFaces(DiceFace[] facesRef)
     {
         m_Faces = facesRef;
+
+        Renderer renderer = this.GetComponent<Renderer>();
+        renderer.material.color = m_Faces[0].DieColour;
+
+        Canvas[] faces = this.GetComponentsInChildren<Canvas>();
+        for(int i = 0; i < m_Faces.Length; i++)
+        {
+            Text[] text = faces[i].GetComponentsInChildren<Text>();
+            text[0].text = m_Faces[i].Level.ToString();
+            text[0].color = m_Faces[i].TextColour;
+            text[1].color = m_Faces[i].TextColour;
+            text[2].color = m_Faces[i].TextColour;
+
+            if (m_Faces[i].Face == FaceType.Play)
+            {
+                PlayFace playFace = (PlayFace)m_Faces[i];
+                text[1].text = playFace.Attack.ToString();
+                text[2].text = playFace.Toughness.ToString();
+            }
+            else if(m_Faces[i].Face == FaceType.Special)
+            {
+                text[1].text = "";
+                text[2].text = "";
+            }
+        }
     }
 
     // Use this for initialization
     void Start ()
     {
+        if (m_Faces == null)
+        {
+            m_Faces = new DiceFace[6];
+        }
+
         m_Spinning = false;
         m_Checked = false;
         State = DiceState.InDeck;
 
         m_Values = new Dictionary<Vector3, int>();
-        m_Values.Add(Vector3.up, 4);
-        m_Values.Add(Vector3.down, 3);
+        m_Values.Add(Vector3.up, 3);
+        m_Values.Add(Vector3.down, 2);
 
-        m_Values.Add(Vector3.forward, 6);
-        m_Values.Add(Vector3.back, 1);
+        m_Values.Add(Vector3.forward, 5);
+        m_Values.Add(Vector3.back, 0);
 
-        m_Values.Add(Vector3.right, 5);
-        m_Values.Add(Vector3.left, 2);
+        m_Values.Add(Vector3.right, 4);
+        m_Values.Add(Vector3.left, 1);
     }
 	
 	// Update is called once per frame
@@ -85,7 +115,7 @@ public class DiceObject : MonoBehaviour
             float angle = Vector3.Angle(objectSpace, vector);
             if(angle <= 5.0f)
             {
-                Debug.Log("Facing is: " + m_Values[vector]);
+                //Debug.Log("Facing is: " + m_Values[vector]);
                 return m_Values[vector];
             }
         }
@@ -106,10 +136,15 @@ public class DiceObject : MonoBehaviour
 
     public void Lift()
     {
-        this.transform.position = this.transform.position + new Vector3(0.0f, 4.0f, 0.0f);
+        this.transform.position = this.transform.position + new Vector3(0.0f, 3.0f, 0.0f);
         GetComponent<Rigidbody>().useGravity = false;
         GetComponent<Rigidbody>().isKinematic = false;
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePosition;
+    }
+
+    public void Lower()
+    {
+        this.transform.position = this.transform.position - new Vector3(0.0f, 3.0f, 0.0f);
     }
 
     public void Draw()
@@ -122,6 +157,19 @@ public class DiceObject : MonoBehaviour
         State = DiceState.InPlay;
     }
 
+    public void Spend()
+    {
+        Spent = true;
+    }
+
+    public void NewTurn()
+    {
+        Spent = false;
+        m_LastRoll = 0;
+        m_Spinning = false;
+        m_Checked = false;
+    }
+
     public void Return()
     {
         GetComponent<Rigidbody>().isKinematic = true;
@@ -132,6 +180,26 @@ public class DiceObject : MonoBehaviour
     {
         get;
         set;
+    }
+
+    public bool Selected
+    {
+        get;
+        set;
+    }
+
+    public bool Spent
+    {
+        get;
+        private set;
+    }
+
+    public DiceFace FaceUp
+    {
+        get
+        {
+            return m_Faces[m_LastRoll];
+        }
     }
 }
 

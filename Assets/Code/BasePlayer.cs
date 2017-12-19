@@ -13,9 +13,9 @@ public abstract class BasePlayer
         m_Play = new List<DiceObject>();
     }
 
-    public abstract void Draw();
-    public abstract void Play(DiceObject diceRef);
-    public abstract void Special(DiceObject diceRef);
+    public abstract bool Draw();
+    public abstract bool Play();
+    public abstract bool Special(DiceObject diceRef);
 
     public List<DiceObject> Deck
     {

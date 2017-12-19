@@ -14,9 +14,17 @@ public class GameManager : MonoBehaviour
         m_CurrentPlayer = 0;
         DiceObject diceObject = Resources.Load<DiceObject>("Prefabs/Dice");
         List<DiceObject> dice = new List<DiceObject>();
+
+        DiceFace[] faces = new DiceFace[6];
+        for(int i = 1; i < 7; i++)
+        {
+            faces[i - 1] = new PlayFace(i, i, i, FaceType.Play, Color.black, Color.cyan);
+        }
+
         for(int i = 0; i < 18; i++)
         {
             DiceObject instance = GameObject.Instantiate<DiceObject>(diceObject);
+            instance.SetFaces(faces);
             instance.transform.position = new Vector3(-10.0f, 2.0f, -10.0f);
             instance.GetComponent<Rigidbody>().isKinematic = true;
             dice.Add(instance);
@@ -30,6 +38,11 @@ public class GameManager : MonoBehaviour
     {
 		
 	}
+
+    public void SetState(TurnState stateRef)
+    {
+        State = stateRef;
+    }
 
     public void Draw()
     {
@@ -61,6 +74,14 @@ public class GameManager : MonoBehaviour
         get
         {
             return m_Players;
+        }
+    }
+
+    public BasePlayer ActingPlayer
+    {
+        get
+        {
+            return m_Players[m_CurrentPlayer];
         }
     }
 

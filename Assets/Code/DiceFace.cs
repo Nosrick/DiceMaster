@@ -1,9 +1,20 @@
-﻿public abstract class DiceFace
+﻿using UnityEngine;
+
+public abstract class DiceFace
 {
-    public DiceFace(int levelRef, FaceType faceRef)
+    public DiceFace()
+    {
+        Level = 1;
+        Face = FaceType.Play;
+    }
+
+    public DiceFace(int levelRef, FaceType faceRef, Color textColourRef, Color dieColourRef)
     {
         Level = levelRef;
         Face = faceRef;
+
+        TextColour = textColourRef;
+        DieColour = dieColourRef;
     }
 
     public int Level
@@ -17,14 +28,32 @@
         get;
         protected set;
     }
+
+    public Color TextColour
+    {
+        get;
+        protected set;
+    }
+
+    public Color DieColour
+    {
+        get;
+        protected set;
+    }
 }
 
 public class PlayFace : DiceFace
 {
-    public PlayFace(int attackRef, int toughnessRef, int levelRef, FaceType faceRef) : base(levelRef, faceRef)
+    public PlayFace() : base()
+    {
+        Attack = 1;
+        Toughness = 1;
+    }
+
+    public PlayFace(int attackRef, int toughnessRef, int levelRef, FaceType faceRef, Color textColourRef, Color dieColourRef) : base(levelRef, faceRef, textColourRef, dieColourRef)
     {
         Attack = attackRef;
-        Toughness = Toughness;
+        Toughness = toughnessRef;
     }
 
     public int Attack
@@ -42,8 +71,13 @@ public class PlayFace : DiceFace
 
 public class SpecialFace : DiceFace
 {
-    public SpecialFace(BaseSpecial specialRef, int levelRef, FaceType faceRef) : base(levelRef, faceRef)
+    public SpecialFace() : base()
     {
+        Special = null;
+    }
+
+    public SpecialFace(BaseSpecial specialRef, int levelRef, FaceType faceRef, Color textColourRef, Color dieColourRef) : base(levelRef, faceRef, textColourRef, dieColourRef)
+    { 
         Special = specialRef;
     }
 
