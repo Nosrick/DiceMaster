@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour
         DiceFace[] faces = new DiceFace[6];
         for(int i = 1; i < 7; i++)
         {
-            faces[i - 1] = DiceFaceLoader.Get("DebugCat-1"); //new PlayFace(i, i, i, FaceType.Play, Color.black, Color.cyan, "DEFAULT-" + i, MaterialLoader.Get("DebugCat"));
+            faces[i - 1] = DiceFaceLoader.Get("DebugCat-" + i); //new PlayFace(i, i, i, FaceType.Play, Color.black, Color.cyan, "DEFAULT-" + i, MaterialLoader.Get("DebugCat"));
             DiceFaceLoader.Serialise(faces[i - 1]);
         }
 
